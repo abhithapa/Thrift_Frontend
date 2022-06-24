@@ -1,17 +1,313 @@
 import "./Product.css"
-import React, { useState } from "react"
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
-function Product() {
+const Product=()=>{
+    const [pdata, setPdata] = useState([]);
+    
+    const config ={
+        headers:{
+            Authorization: 'Bearer '+localStorage.getItem('token')
+            
+        }
+    }
+   
+    useEffect(()=>{
+        console.log(JSON.parse(localStorage.getItem('user')).role)
+        if(JSON.parse(localStorage.getItem('user')).role=="doner"){
+            axios.get("http://localhost:90/product/myproduct", config)
+            .then(result=>{
+                setPdata(result.data)
+                // console.log(data)
+            }).catch((e)=>{
+                alert("something went wrong")
+            });
+        }else{
+            axios.get("http://localhost:90/product/allproducts")
+            .then(result=>{
+                setPdata(result.data)
+                // console.log(data)
+            }).catch((e)=>{
+                alert("something went wrong")
+            });
+        }
+
+    
+    },[]);
+   
+    
+    
+    //to delete product
+    const deleteProduct=(pid)=>{
+        
+        // console.log(pid)
+        axios.delete("http://localhost:90/product/delete/"+pid, config)
+        
+       .then((result)=>{
+           if(result.status===200){
+            toast.success(result.data.msg)
+               setPdata(pdata.filter(donation=> donation._id!==pid))
+            //    alert("sucessfully deleted")
+            // toast.error(result.data.msg)
+           }
+       }).catch((e)=>{
+           alert("unable to delete")
+       })
+    }
 
     return (
         <div className="App">
 
+            {/* 1st Container */}
             <section class="section-pagetop bg">
                 <div class="container">
-                    <h2 class="title-page">Products</h2>
+                    <h2 class="title-page">New Arrivals</h2>
 
                 </div>
             </section>
+
+            <section class="section-content padding-y">
+                <div class="container">
+
+                    <div class="row">
+                        <aside class="col-md-3">
+
+                            <div class="card">
+                                <article class="filter-group">
+                                    <header class="card-header">
+                                        <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+                                            <i class="icon-control fa fa-chevron-down"></i>
+                                            <h6 class="title">Product type</h6>
+                                        </a>
+                                    </header>
+                                    <div class="filter-content collapse show" id="collapse_1">
+                                        <div class="card-body">
+                                            <form class="pb-3">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Search" />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <ul class="list-menu">
+                                                <li><a href="#">People  </a></li>
+                                                <li><a href="#">Watches </a></li>
+                                                <li><a href="#">Cinema  </a></li>
+                                                <li><a href="#">Clothes  </a></li>
+                                                <li><a href="#">Home items </a></li>
+                                                <li><a href="#">Animals</a></li>
+                                                <li><a href="#">People </a></li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </article>
+
+                                
+
+                            </div>
+                        </aside>
+                        <main class="col-md-9">
+
+                            <header class="border-bottom mb-4 pb-3">
+                                <div class="form-inline">
+                                    <span class="mr-md-auto">Latest Clothes </span>
+                                    <select class="mr-2 form-control">
+                                        <option>Latest items</option>
+                                        <option>Trending</option>
+                                        <option>Most Popular</option>
+                                        <option>Cheapest</option>
+                                    </select>
+                                    <div class="btn-group">
+                                        <a href="#" class="btn btn-outline-secondary" data-toggle="tooltip" title="List view">
+                                            <i class="fa fa-bars"></i></a>
+                                        <a href="#" class="btn  btn-outline-secondary active" data-toggle="tooltip" title="Grid view">
+                                            <i class="fa fa-th"></i></a>
+                                    </div>
+                                </div>
+                            </header>
+                            
+
+                            return(
+        <div className="MyP">
+            <ToastContainer />
+        <div className="container">
+            <div className="row">
+                {pdata.map(mydata=>{
+                    return(
+                        
+                        
+                        <div class="extra-divi col-lg-2 col-md-2 col-6">
+                        
+                        
+                        <h3>{mydata.productName}</h3>
+                         <p><img src={'http://localhost:90/'+mydata.pimage} className="pro_image" alt="donation"></img></p>
+                        <p className="namm"><b className="Damm">Description</b>:{mydata.desc} </p>
+                        <p><b>Doner</b>:{mydata.donerName} </p>
+                        <p>
+                        {JSON.parse(localStorage.getItem('user')).role=='doner' ?
+                        <>
+                        <button className=" hoho btn btn-danger" onClick={()=>{deleteProduct(mydata._id)}}>Delete</button>
+                        <Link to={"/product/update/" +mydata._id}><button className="hoho btn btn-secondary">Update</button></Link></>:
+                        <button className=" hoho btn btn-success" onClick={()=>{alert('Request  sent successfully')}}>Request</button>}
+                        </p>
+                        <p><Link to={"/product/single/" +mydata._id}>Read More</Link></p>
+                    </div>
+                   
+                    )
+                })}
+               
+                
+            </div>
+        </div>
+        </div>
+    )
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <figure class="card card-product-grid">
+                                        <div class="img-wrap">
+                                            <span class="badge badge-danger"> NEW </span>
+                                            <img src="https://png.pngtree.com/png-vector/20201128/ourmid/pngtree-cotton-short-sleeve-t-shirt-png-image_2453590.jpg" />
+                                            <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
+                                        </div>
+                                        <figcaption class="info-wrap">
+                                            <div class="fix-height">
+                                                <a href="#" class="title">Great item name goes here</a>
+                                                <div class="price-wrap mt-2">
+                                                    <span class="price">$1280</span>
+                                                    <del class="price-old">$1980</del>
+                                                </div>
+                                            </div>
+                                            <a href="#" class="btn btn-block btn-primary">Add to cart </a>
+                                        </figcaption>
+                                    </figure>
+                                </div>
+                                </div>
+                            
+                            </main>
+
+                    </div>
+                </div>
+
+
+            </section>
+
+
+            {/* 2nd Container */}
+            <section class="section-pagetop bg">
+                <div class="container">
+                    <h2 class="title-page">New Arrivals</h2>
+
+                </div>
+            </section>
+            <section class="section-content padding-y">
+                <div class="container">
+
+                    <div class="row">
+                        <aside class="col-md-3">
+
+                            <div class="card">
+                                <article class="filter-group">
+                                    <header class="card-header">
+                                        <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+                                            <i class="icon-control fa fa-chevron-down"></i>
+                                            <h6 class="title">Product type</h6>
+                                        </a>
+                                    </header>
+                                    <div class="filter-content collapse show" id="collapse_1">
+                                        <div class="card-body">
+                                            <form class="pb-3">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Search" />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <ul class="list-menu">
+                                                <li><a href="#">People  </a></li>
+                                                <li><a href="#">Watches </a></li>
+                                                <li><a href="#">Cinema  </a></li>
+                                                <li><a href="#">Clothes  </a></li>
+                                                <li><a href="#">Home items </a></li>
+                                                <li><a href="#">Animals</a></li>
+                                                <li><a href="#">People </a></li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </article>
+
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+
+
+            </section>
+
+            {/* 3rd Container */}
+            <section class="section-pagetop bg">
+                <div class="container">
+                    <h2 class="title-page">New Arrivals</h2>
+
+                </div>
+            </section>
+            <section class="section-content padding-y">
+                <div class="container">
+
+                    <div class="row">
+                        <aside class="col-md-3">
+
+                            <div class="card">
+                                <article class="filter-group">
+                                    <header class="card-header">
+                                        <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+                                            <i class="icon-control fa fa-chevron-down"></i>
+                                            <h6 class="title">Product type</h6>
+                                        </a>
+                                    </header>
+                                    <div class="filter-content collapse show" id="collapse_1">
+                                        <div class="card-body">
+                                            <form class="pb-3">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Search" />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <ul class="list-menu">
+                                                <li><a href="#">People  </a></li>
+                                                <li><a href="#">Watches </a></li>
+                                                <li><a href="#">Cinema  </a></li>
+                                                <li><a href="#">Clothes  </a></li>
+                                                <li><a href="#">Home items </a></li>
+                                                <li><a href="#">Animals</a></li>
+                                                <li><a href="#">People </a></li>
+                                            </ul>
+
+                                        </div>
+                                    </div>
+                                </article>
+
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </section>
+
+
+
+
+
 
             <section class="section-content padding-y">
                 <div class="container">
@@ -338,4 +634,4 @@ function Product() {
     )
 }
 
-export default Product
+export default Product;

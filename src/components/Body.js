@@ -5,7 +5,7 @@ import Home from './Home';
 import Aboutus from './Aboutus';
 // import Blog from './Blog/Blog';
 // import DonerLogin from './Login/Doner';
-// import AddProduct from './Product/Addproduct';
+import AddProduct from './ProductContainer/Addproduct';
 // import Myproduct from './Product/Myproduct';
 import Myprofile from './Myprofile';
 // import MyBlog from './Blog/Myblog';
@@ -21,7 +21,7 @@ const Body=()=>{
             
             <Route path='/Signup' element={<Signup/>}></Route>
             {/* <Route path='/Doner' element={<Doner/>}></Route> */}
-            {/* <Route path='/Addproduct' element={<AddProduct/>}></Route> */}
+            <Route path='/Addproduct' element={<AddProduct/>}></Route>
             <Route path='/' element={<Aboutus/>}></Route>
             {/* <Route path='/Blog' element={<Blog/>}></Route> */}
             {/* <Route path='/Myproduct' element={<Myproduct/>}></Route> */}

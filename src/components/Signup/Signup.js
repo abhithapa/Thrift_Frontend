@@ -117,19 +117,12 @@ e.preventDefault();
                                      value={email} onChange={(e)=>setEmail(e.target.value)}></input>
                                  
                              </div>
-                            
-
-
                              <div className="fc mb-3 col-md-12">
                                  <label>Password<span className="text-danger">*</span></label>
                                  <input type="password" name="password" className="form-control" placeholder="password" 
                                      value={password} onChange={(e)=>setPassword(e.target.value)}></input>
                                  
                              </div>
-
-                            
-
-
                              <div className="col-md-12">
                                  <button className="btn btn-primary float-end" type="submit" onClick={donerRegister}>SignUp</button>
                              </div>

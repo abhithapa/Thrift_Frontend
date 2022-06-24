@@ -3,26 +3,79 @@ import styled from 'styled-components'
 import SearchIcon from '@mui/icons-material/Search';
 import Badge from '@mui/material/Badge';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
-  return (
+  const logOut=()=>{
+    localStorage.clear();
+    window.location.replace('/');
+  }
+  var menu;
+  if(localStorage.getItem('token')){
+    menu=(
+      <div>
+      <Container>
+        
+          <Wrapper>
+            
+              <Left>
+              {/* <Link className="navbar-brand" to="/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEMzUbI9ynwunjpshVHF0PzMzl_MUem3SKNCFwYZblRNaPQIxdQ9BBLgVX6XH1LoTa254&usqp=CAU " alt="logo" width="150" height="50 "></img>
+                   <span className="hidden">Thrift Store</span></Link> */}
+                 {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                   <span className="navbar-toggler-icon"></span>
+                 </button> */}
+              
+              <Language><Link  to="/"> Home</Link></Language>
+                  <SearchContainer className='form-control input-lg'>
+                      <Input style={{color:"gray", fontSize:17, width:900}} placeholder="search" />
+                      <SearchIcon style={{color:"gray", fontSize:20, width:300}} />
+                  </SearchContainer>
+              </Left>
+              <Center>
+                 
+              </Center>
+              <Right>
+              <MenuItem><Link to="/AddProduct"> Add Product</Link></MenuItem>
+                  <MenuItem><button onClick={logOut}>Log Out</button></MenuItem>
+                  
+                  <MenuItem>
+                      <Badge  color="primary">
+                          {/* <MailIcon color="action" />*/} 
+                          <ShoppingCartOutlinedIcon />
+                      </Badge>
+                  </MenuItem>
+              </Right>
+          </Wrapper>
+      </Container>
+      </div>
+    )
+  }else{
+    menu=(
+<div>
     <Container>
+      
         <Wrapper>
+          
             <Left>
-                <Language>EN</Language>
-                <SearchContainer>
-                    <Input placeholder="search" />
-                    <SearchIcon style={{color:"gray", fontSize:16}} />
+            
+               {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                 <span className="navbar-toggler-icon"></span>
+               </button> */}
+            
+            <Language><Link  to="/"> Home</Link></Language>
+                <SearchContainer className='form-control input-lg'>
+                    <Input style={{color:"gray", fontSize:17, width:900}} placeholder="search" />
+                    <SearchIcon style={{color:"gray", fontSize:20, width:300}} />
                 </SearchContainer>
             </Left>
             <Center>
-                <Logo>uShop.</Logo>
+            
             </Center>
             <Right>
-                <MenuItem>REGISTER</MenuItem>
-                <MenuItem>SIGNIN</MenuItem>
+                <MenuItem><Link to="/Signup"> Register</Link></MenuItem>
+                <MenuItem><Link to="/Home"> Login</Link></MenuItem>
                 <MenuItem>
-                    <Badge badgeContent={4} color="primary">
+                    <Badge  color="primary">
                         {/* <MailIcon color="action" />*/} 
                         <ShoppingCartOutlinedIcon />
                     </Badge>
@@ -30,10 +83,37 @@ const Navbar = () => {
             </Right>
         </Wrapper>
     </Container>
-  )
+    </div>
+    )
+              }
+
+    return(
+      <Container style={{height:"110px", width:"100%"}}>
+        <Wrapper >
+          
+      <Link className="navbar-brand" to="/"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEMzUbI9ynwunjpshVHF0PzMzl_MUem3SKNCFwYZblRNaPQIxdQ9BBLgVX6XH1LoTa254&usqp=CAU " alt="logo" width="150" height="50 "></img>
+                 <span className="hidden">Thrift Store</span></Link>
+                 {menu}
+                 
+                 </Wrapper>
+                 </Container>
+
+    
+    )
+     
 }
+
+
+
+
 const Container=styled.div`
-    height:60px;
+    height:80px;
+    position: sticky;
+    background: cyan;
+    top: 0;
+    z-index: 1;
+    
+    
   
 `
 const Wrapper = styled.div`
@@ -42,6 +122,14 @@ const Wrapper = styled.div`
     justify-content:space-between;
     
 `
+// const input = styled.div`
+//     padding:10px 20px;
+//     display:flex;
+//     justify-content:space-between;
+//     width: 800px;
+    
+// `
+
 const Left=styled.div`
     display:flex;
     flex:5;
@@ -50,14 +138,21 @@ const Left=styled.div`
 const Language=styled.span`
     font-size:14px;
     cursor:pointer;
+    text-decoration:none !important;
+    color:black;
+
    
 `
+
+
 const SearchContainer=styled.div`
     border:1px solid lightgrey;
     display:flex;
     align-items:center;
-    margin-left:25px;
-    padding:5px;
+    margin-left:40px;
+    padding:20px;
+    width: 400px;
+    
 `
 const Input=styled.input`
     border:none;
