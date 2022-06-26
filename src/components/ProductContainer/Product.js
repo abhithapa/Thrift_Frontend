@@ -4,57 +4,63 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
-const Product=()=>{
+const Product = () => {
     const [pdata, setPdata] = useState([]);
-    
-    const config ={
-        headers:{
-            Authorization: 'Bearer '+localStorage.getItem('token')
-            
+    const filterResult=(catItems)=>{
+        const result=[].filter((curData)=>{
+            return curData.Product===catItems;
+        });
+        setPdata(result);
+    }
+
+    const config = {
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+
         }
     }
-   
-    useEffect(()=>{
+
+    useEffect(() => {
         console.log(JSON.parse(localStorage.getItem('user')).role)
-        if(JSON.parse(localStorage.getItem('user')).role=="doner"){
+        if (JSON.parse(localStorage.getItem('user')).role == "doner") {
             axios.get("http://localhost:90/product/myproduct", config)
-            .then(result=>{
-                setPdata(result.data)
-                // console.log(data)
-            }).catch((e)=>{
-                alert("something went wrong")
-            });
-        }else{
+                .then(result => {
+                    setPdata(result.data)
+                    // console.log(data)
+                }).catch((e) => {
+                    alert("something went wrong")
+                });
+        } else {
             axios.get("http://localhost:90/product/allproducts")
-            .then(result=>{
-                setPdata(result.data)
-                // console.log(data)
-            }).catch((e)=>{
-                alert("something went wrong")
-            });
+                .then(result => {
+                    setPdata(result.data)
+                    // console.log(data)
+                }).catch((e) => {
+                    alert("something went wrong")
+                });
         }
 
-    
-    },[]);
-   
-    
-    
+
+    }, []);
+
+
+
     //to delete product
-    const deleteProduct=(pid)=>{
-        
+    const deleteProduct = (pid) => {
+
         // console.log(pid)
-        axios.delete("http://localhost:90/product/delete/"+pid, config)
-        
-       .then((result)=>{
-           if(result.status===200){
-            toast.success(result.data.msg)
-               setPdata(pdata.filter(donation=> donation._id!==pid))
-            //    alert("sucessfully deleted")
-            // toast.error(result.data.msg)
-           }
-       }).catch((e)=>{
-           alert("unable to delete")
-       })
+        axios.delete("http://localhost:90/product/delete/" + pid, config)
+
+            .then((result) => {
+                if (result.status === 200) {
+                    toast.success(result.data.msg)
+                    setPdata(pdata.filter(donation => donation._id !== pid))
+                    //    alert("sucessfully deleted")
+                    // toast.error(result.data.msg)
+                }
+            }).catch((e) => {
+                alert("unable to delete")
+            })
     }
 
     return (
@@ -94,20 +100,18 @@ const Product=()=>{
                                             </form>
 
                                             <ul class="list-menu">
-                                                <li><a href="#">People  </a></li>
-                                                <li><a href="#">Watches </a></li>
-                                                <li><a href="#">Cinema  </a></li>
-                                                <li><a href="#">Clothes  </a></li>
-                                                <li><a href="#">Home items </a></li>
-                                                <li><a href="#">Animals</a></li>
-                                                <li><a href="#">People </a></li>
+                                                <li><a href="#" >Men  </a></li>
+                                                <li><button class="btn btn-light" type="button" onClick={()=>
+                                        filterResult('New Arrivals')}>New Arrivals</button></li>
+                                                <li><a href="#">Child</a></li>
+                                                
                                             </ul>
 
                                         </div>
                                     </div>
                                 </article>
 
-                                
+
 
                             </div>
                         </aside>
@@ -120,7 +124,8 @@ const Product=()=>{
                                         <option>Latest items</option>
                                         <option>Trending</option>
                                         <option>Most Popular</option>
-                                        <option>Cheapest</option>
+                                        <option onClick={()=>
+                                        filterResult('New Arrivals')}>New Arrivals</option>
                                     </select>
                                     <div class="btn-group">
                                         <a href="#" class="btn btn-outline-secondary" data-toggle="tooltip" title="List view">
@@ -130,66 +135,82 @@ const Product=()=>{
                                     </div>
                                 </div>
                             </header>
-                            
 
-                            return(
-        <div className="MyP">
-            <ToastContainer />
-        <div className="container">
-            <div className="row">
-                {pdata.map(mydata=>{
-                    return(
-                        
-                        
-                        <div class="extra-divi col-lg-2 col-md-2 col-6">
-                        
-                        
-                        <h3>{mydata.productName}</h3>
-                         <p><img src={'http://localhost:90/'+mydata.pimage} className="pro_image" alt="donation"></img></p>
-                        <p className="namm"><b className="Damm">Description</b>:{mydata.desc} </p>
-                        <p><b>Doner</b>:{mydata.donerName} </p>
-                        <p>
-                        {JSON.parse(localStorage.getItem('user')).role=='doner' ?
-                        <>
-                        <button className=" hoho btn btn-danger" onClick={()=>{deleteProduct(mydata._id)}}>Delete</button>
-                        <Link to={"/product/update/" +mydata._id}><button className="hoho btn btn-secondary">Update</button></Link></>:
-                        <button className=" hoho btn btn-success" onClick={()=>{alert('Request  sent successfully')}}>Request</button>}
-                        </p>
-                        <p><Link to={"/product/single/" +mydata._id}>Read More</Link></p>
-                    </div>
-                   
-                    )
-                })}
-               
-                
-            </div>
-        </div>
-        </div>
-    )
 
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <figure class="card card-product-grid">
-                                        <div class="img-wrap">
-                                            <span class="badge badge-danger"> NEW </span>
-                                            <img src="https://png.pngtree.com/png-vector/20201128/ourmid/pngtree-cotton-short-sleeve-t-shirt-png-image_2453590.jpg" />
-                                            <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
-                                        </div>
-                                        <figcaption class="info-wrap">
-                                            <div class="fix-height">
-                                                <a href="#" class="title">Great item name goes here</a>
-                                                <div class="price-wrap mt-2">
-                                                    <span class="price">$1280</span>
-                                                    <del class="price-old">$1980</del>
+                            {/* return( */}
+                            <div className="MyP">
+                                <ToastContainer />
+                                <div className="container">
+                                    <div className="row">
+                                        {pdata.map(mydata => {
+                                            return (
+
+                                                <div className="row">
+                                                <div class="col-md-4">
+                                                    <figure class="card card-product-grid">
+
+
+                                                        <div class="img-wrap">
+                                                            <p><img src={'http://localhost:90/' + mydata.pimage} className="pro_image" alt="donation"></img></p>
+                                                            {/* <a class="btn-overlay"><i class="fa fa-search-plus"><Link to={"/product/single/" +mydata._id}></Link></i> Quick view</a> */}
+                                                            <p><Link to={"/product/single/" + mydata._id}>Read More</Link></p>
+                                                        </div>
+                                                        <figcaption class="info-wrap">
+                                                            <div class="fix-height">
+                                                                <h3>{mydata.productName}</h3>
+                                                                <p className="namm"><b className="Damm"></b>{mydata.desc} </p>
+                                                                {/* <p><b>Doner</b>:{mydata.donerName} </p> */}
+                                                                {/* <p>
+                                                                    {JSON.parse(localStorage.getItem('user')).role == 'doner' ?
+                                                                        <>
+                                                                            <button className=" hoho btn btn-danger" onClick={() => { deleteProduct(mydata._id) }}>Delete</button>
+                                                                            <Link to={"/product/update/" + mydata._id}><button className="hoho btn btn-secondary">Update</button></Link></> :
+                                                                        <button className=" hoho btn btn-success" onClick={() => { alert('Request  sent successfully') }}>Request</button>}
+                                                                </p> */}
+                                                            </div>
+                                                            <div class="price-wrap mt-2">
+                                                                <span class="price">$1280</span>
+                                                                {/* <del class="price-old">$1980</del> */}
+                                                            </div>
+                                                            {/* <p><Link to={"/product/single/" +mydata._id}>Read More</Link></p> */}
+                                                            <a href="#" class="btn btn-block btn-primary">Add to cart </a>
+                                                        </figcaption>
+                                                    </figure>
                                                 </div>
+                                                </div>
+
+                                            )
+                                        })}
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            {/* ) */}
+
+                            {/* <div class="row">
+                            <div class="col-md-4">
+                                <figure class="card card-product-grid">
+                                    <div class="img-wrap">
+                                        <span class="badge badge-danger"> NEW </span>
+                                        <img src="https://png.pngtree.com/png-vector/20201128/ourmid/pngtree-cotton-short-sleeve-t-shirt-png-image_2453590.jpg" />
+                                        <a class="btn-overlay" href="#"><i class="fa fa-search-plus"></i> Quick view</a>
+                                    </div>
+                                    <figcaption class="info-wrap">
+                                        <div class="fix-height">
+                                            <a href="#" class="title">Great item name goes here</a>
+                                            <div class="price-wrap mt-2">
+                                                <span class="price">$1280</span>
+                                                <del class="price-old">$1980</del>
                                             </div>
-                                            <a href="#" class="btn btn-block btn-primary">Add to cart </a>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                                </div>
-                            
-                            </main>
+                                        </div>
+                                        <a href="#" class="btn btn-block btn-primary">Add to cart </a>
+                                    </figcaption>
+                                </figure>
+                            </div>
+                            </div> */}
+
+                        </main>
 
                     </div>
                 </div>
@@ -309,7 +330,7 @@ const Product=()=>{
 
 
 
-            <section class="section-content padding-y">
+            {/* <section class="section-content padding-y">
                 <div class="container">
 
                     <div class="row">
@@ -624,7 +645,7 @@ const Product=()=>{
                     </div>
 
                 </div>
-            </section>
+            </section> */}
 
 
 

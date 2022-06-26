@@ -8,6 +8,7 @@ const AddProduct=()=>{
     const [desc, setDesc]=useState('');
     const [productName, setProductName]=useState('');
     const[pimage, setPimage]=useState('');
+    const[category, setCategory]=useState('');
     const[donerName, setDonerName]=useState('');
     
     const ProductRegister=(e)=>{
@@ -22,6 +23,7 @@ const AddProduct=()=>{
         productData.append('pimage', pimage)
         productData.append('productName', productName)
         productData.append('desc', desc)
+        productData.append('category', category)
         productData.append('donerName', donerName)
 
         
@@ -75,6 +77,10 @@ const AddProduct=()=>{
                         <div className="form-group">
                             <label>Doner Name</label>
                             <input type="text" className="form-control" placeholder="Doner name" value={donerName} onChange={(e)=>setDonerName(e.target.value)}></input>
+                        </div>
+                        <div className="form-group">
+                            <label>Category</label>
+                            <input type="text" className="form-control" placeholder="Category" value={category} onChange={(e)=>setCategory(e.target.value)}></input>
                         </div>
                         <div className="form-group">
                             <label>Image</label>
