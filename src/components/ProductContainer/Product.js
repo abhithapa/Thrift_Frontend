@@ -145,7 +145,7 @@ const Product = () => {
                                         {pdata.map(mydata => {
                                             return (
 
-                                                <div className="row">
+                                                // <div className="row">
                                                 <div class="col-md-4">
                                                     <figure class="card card-product-grid">
 
@@ -173,11 +173,11 @@ const Product = () => {
                                                                 {/* <del class="price-old">$1980</del> */}
                                                             </div>
                                                             {/* <p><Link to={"/product/single/" +mydata._id}>Read More</Link></p> */}
-                                                            <a href="#" class="btn btn-block btn-primary">Add to cart </a>
+                                                            <a href="#" class="btn btn-block btn-primary">Buy Now </a>
                                                         </figcaption>
                                                     </figure>
                                                 </div>
-                                                </div>
+                                                // </div>
 
                                             )
                                         })}

@@ -20,7 +20,7 @@ const Home=()=>{
                 //locally sore
                 localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(result.data.donerData));
-                window.location.replace('/');
+                window.location.replace('/Home');
                 // alert("sucessfully loged in");
                 toast.success("sucessfull", {
                     position: "top-center",                    

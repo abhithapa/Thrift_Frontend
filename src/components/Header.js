@@ -25,7 +25,7 @@ const Navbar = () => {
                    <span className="navbar-toggler-icon"></span>
                  </button> */}
               
-              <Language><Link  to="/"> Home</Link></Language>
+              <Language><Link  to="/Home"> Home</Link></Language>
                   <SearchContainer className='form-control input-lg'>
                       <Input style={{color:"gray", fontSize:17, width:900}} placeholder="search" />
                       <SearchIcon style={{color:"gray", fontSize:20, width:300}} />
@@ -35,15 +35,12 @@ const Navbar = () => {
                  
               </Center>
               <Right>
-              <MenuItem><Link to="/AddProduct"> Add Product</Link></MenuItem>
-                  <MenuItem><button onClick={logOut}>Log Out</button></MenuItem>
+              <MenuItem style={{color:"gray", fontSize:15, width:30}} ><Link to="/AddProduct"> Add</Link></MenuItem>
+                  <MenuItem><button onClick={logOut}>LogOut</button></MenuItem>
                   
-                  <MenuItem>
-                      <Badge  color="primary">
-                          {/* <MailIcon color="action" />*/} 
-                          <ShoppingCartOutlinedIcon />
-                      </Badge>
-                  </MenuItem>
+                  
+                  <MenuItem style={{color:"gray", fontSize:15, width:30}} ><Link to="/Myproduct"> Product</Link></MenuItem>
+                  
               </Right>
           </Wrapper>
       </Container>
@@ -62,7 +59,7 @@ const Navbar = () => {
                  <span className="navbar-toggler-icon"></span>
                </button> */}
             
-            <Language><Link  to="/"> Home</Link></Language>
+            <Language><Link  to="/Home"> Home</Link></Language>
                 <SearchContainer className='form-control input-lg'>
                     <Input style={{color:"gray", fontSize:17, width:900}} placeholder="search" />
                     <SearchIcon style={{color:"gray", fontSize:20, width:300}} />
@@ -74,12 +71,12 @@ const Navbar = () => {
             <Right>
                 <MenuItem><Link to="/Signup"> Register</Link></MenuItem>
                 <MenuItem><Link to="/Home"> Login</Link></MenuItem>
-                <MenuItem>
-                    <Badge  color="primary">
+                {/* <MenuItem> */}
+                    {/* <Badge  color="primary"> */}
                         {/* <MailIcon color="action" />*/} 
-                        <ShoppingCartOutlinedIcon />
-                    </Badge>
-                </MenuItem>
+                        {/* <ShoppingCartOutlinedIcon /> */}
+                    {/* </Badge> */}
+                {/* </MenuItem> */}
             </Right>
         </Wrapper>
     </Container>

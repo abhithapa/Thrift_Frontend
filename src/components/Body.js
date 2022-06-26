@@ -13,18 +13,18 @@ import Single from './Single';
 import Updatep from './Update/Productupdate';
 import Updateprofile from './Update/Profileupdate';
 import Signup from './Signup/Signup';
+import Myproduct from './ProductContainer/Myproduct';
 const Body=()=>{
     return(
    
         <Routes>
-            <Route path='/Home' element={<Home/>}></Route>
-            
+            <Route path='/Home' element={<Aboutus/>}></Route>           
             <Route path='/Signup' element={<Signup/>}></Route>
             {/* <Route path='/Doner' element={<Doner/>}></Route> */}
             <Route path='/Addproduct' element={<AddProduct/>}></Route>
-            <Route path='/' element={<Aboutus/>}></Route>
+            <Route path='/' element={<Home/>}></Route>
             {/* <Route path='/Blog' element={<Blog/>}></Route> */}
-            {/* <Route path='/Myproduct' element={<Myproduct/>}></Route> */}
+            <Route path='/Myproduct' element={<Myproduct/>}></Route>
             <Route path='/Myprofile' element={<Myprofile/>}></Route>
             {/* <Route path='/Myblog' element={<MyBlog/>}></Route> */}
             <Route path='/product/single/:pid' element={<Single/>}></Route>
